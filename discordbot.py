@@ -6,7 +6,7 @@ import time # https://docs.python.org/3/library/time.html
 # https://mudae.fandom.com/wiki/Pok%C3%A9slot why i made this
 
 header = { # right click chat box > inspect > network > messages > headers > authorization
-    'authorization': 'Mzc2NDI4NDk5MjAxOTQ5NzA5.Gdga7g.GnaV5Zwu3wNzkQYy9uqFKpwWsEYs6m3_KuBrUQ'
+    'authorization': 'INPUT YOUR TOKEN HERE'
 } # changes whenver you have account changes
 
 payload = { # this is the message to send
@@ -14,7 +14,7 @@ payload = { # this is the message to send
 }
 
 def escortThePayload(): # references: https://www.youtube.com/watch?v=DArlLAq56Mo and https://github.com/nonrice/discord-auto-message
-    r = requests.post('https://discord.com/api/v9/channels/808945581518225438/messages', data=payload, headers=header)
+    r = requests.post('YOUR DISCORD CHANNEL URL HERE', data=payload, headers=header)
 
     if r.status_code == 200: # success!
         print(f'$p sent @ {datetime.datetime.now().strftime("%H:%M:%S")}')
@@ -33,25 +33,7 @@ def first(): # determing time and adjusting accordingly to display right time fo
     else:
         return (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime("%H:00")
 
-# def ellipsis(): # got from here https://stackoverflow.com/questions/58212749/triple-dots-animation-while-program-is-loading-in-terminal
-#     print(end=f'sending next message @ {(datetime.datetime.now() + datetime.timedelta(hours=2)).strftime("%H:%M")}')
-
-#     periods = 0
-#     while int(datetime.datetime.now().strftime('%H')) % 2 != 0:
-#         if periods == 3:
-#             print(end='\b\b\b', flush=True)
-#             print(end='   ',    flush=True)
-#             print(end='\b\b\b', flush=True)
-#             periods = 0
-
-#         else:
-#             print(end='.', flush=True)
-#             periods += 1
-
-#         time.sleep(1)
-
 print(f'sending first message @ {first()}')
-# ellipsis()
 
 schedule.every().day.at("00:00").do(escortThePayload)
 schedule.every().day.at("02:00").do(escortThePayload)
@@ -69,7 +51,3 @@ schedule.every().day.at("22:00").do(escortThePayload)
 while True: # necessary to keep it running, per schedule docs
     schedule.run_pending()
     time.sleep(1)
-
-# js bot? to maybe host it on netlify
-# total messages sent using program?
-# sending next message... then have it rewrite the line with sent @?

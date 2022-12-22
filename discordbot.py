@@ -6,7 +6,7 @@ import time # https://docs.python.org/3/library/time.html
 # https://mudae.fandom.com/wiki/Pok%C3%A9slot why i made this
 
 header = { # right click chat box > inspect > network > messages > headers > authorization
-    'authorization': 'INPUT YOUR TOKEN HERE'
+    'authorization': 'AUTHORIZATION TOKEN'
 } # changes whenver you have account changes
 
 payload = { # this is the message to send
@@ -14,7 +14,7 @@ payload = { # this is the message to send
 }
 
 def escortThePayload(): # references: https://www.youtube.com/watch?v=DArlLAq56Mo and https://github.com/nonrice/discord-auto-message
-    r = requests.post('YOUR DISCORD CHANNEL URL HERE', data=payload, headers=header)
+    r = requests.post('DISCORD CHANNEL URL', data=payload, headers=header) # go to server > right click text channel > copy link
 
     if r.status_code == 200: # success!
         print(f'$p sent @ {datetime.datetime.now().strftime("%H:%M:%S")}')

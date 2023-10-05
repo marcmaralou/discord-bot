@@ -1,53 +1,44 @@
-import requests # https://requests.readthedocs.io/en/latest/
-import datetime # https://docs.python.org/3/library/datetime.html
-import schedule # # https://schedule.readthedocs.io/en/stable/
-import time # https://docs.python.org/3/library/time.html
+import requests
+import datetime
+import schedule
+import time
 
-# https://mudae.fandom.com/wiki/Pok%C3%A9slot why i made this
 
-header = { # right click chat box > inspect > network > messages > headers > authorization
-    'authorization': 'AUTHORIZATION TOKEN'
-} # changes whenver you have account changes
-
-payload = { # this is the message to send
-    'content': '$p' # https://mudae.fandom.com/wiki/Pok%C3%A9slot#List_of_Commands
-}
-
-def escortThePayload(): # references: https://www.youtube.com/watch?v=DArlLAq56Mo and https://github.com/nonrice/discord-auto-message
-    r = requests.post('DISCORD CHANNEL URL', data=payload, headers=header) # go to server > right click text channel > copy link
-
-    if r.status_code == 200: # success!
-        print(f'$p sent @ {datetime.datetime.now().strftime("%H:%M:%S")}')
-        print(f'sending next message @ {(datetime.datetime.now() + datetime.timedelta(hours=2)).strftime("%H:%M:00")}')
-    
-    elif r.status_code == 401: # need to update authorization token
-        print(f'error {r.status_code}: unauthorized')
-        
+def rolling():
+    response = requests.post('{REQUEST URL}',
+                             data = {'content':'$p'},
+                             headers = {'authorization':'{AUTHORIZATION TOKEN}'})
+    # for post url: send message to channel > right click web browser chatbox > inspect > network > messages > headers > general > request url
+    # for auth token: send message to channel > right click web browser chatbox > inspect > network > messages > headers > request headers > authorization
+    if response.status_code == 200:
+        print(f'rolled @ {datetime.datetime.now().strftime("%-I:%M:%S%p").replace("AM","am").replace("PM","pm")},',
+              f'next roll @ {(datetime.datetime.now() + datetime.timedelta(hours=2)).strftime("%-I:00%p").replace("AM","am").replace("PM","pm")}')
+    elif response.status_code == 401:
+        print(f'error {response.status_code}: update authorization token')
     else:
-        print(r.status_code)
+        print(response.status_code)
 
-def first(): # determing time and adjusting accordingly to display right time for next iteration
-    if int(datetime.datetime.now().strftime('%H')) % 2 == 0:
-        return (datetime.datetime.now() + datetime.timedelta(hours=2)).strftime("%H:00")
-    
+def firstRollTime():
+    if int(datetime.datetime.now().strftime('%H')) % 2 == 1:
+        return (datetime.datetime.now() + datetime.timedelta(hours=2)).strftime("%-I:00%p").replace('AM','am').replace('PM','pm')
     else:
-        return (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime("%H:00")
+        return (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime("%-I:00%p").replace('AM','am').replace('PM','pm')
 
-print(f'sending first message @ {first()}')
+print(f'rolling @ {firstRollTime()}')
 
-schedule.every().day.at("00:00").do(escortThePayload)
-schedule.every().day.at("02:00").do(escortThePayload)
-schedule.every().day.at("04:00").do(escortThePayload)
-schedule.every().day.at("06:00").do(escortThePayload)
-schedule.every().day.at("08:00").do(escortThePayload)
-schedule.every().day.at("10:00").do(escortThePayload)
-schedule.every().day.at("12:00").do(escortThePayload)
-schedule.every().day.at("14:00").do(escortThePayload)
-schedule.every().day.at("16:00").do(escortThePayload)
-schedule.every().day.at("18:00").do(escortThePayload)
-schedule.every().day.at("20:00").do(escortThePayload)
-schedule.every().day.at("22:00").do(escortThePayload)
+schedule.every().day.at("01:00").do(rolling)
+schedule.every().day.at("03:00").do(rolling)
+schedule.every().day.at("05:00").do(rolling)
+schedule.every().day.at("07:00").do(rolling)
+schedule.every().day.at("09:00").do(rolling)
+schedule.every().day.at("11:00").do(rolling)
+schedule.every().day.at("13:00").do(rolling)
+schedule.every().day.at("15:00").do(rolling)
+schedule.every().day.at("17:00").do(rolling)
+schedule.every().day.at("19:00").do(rolling)
+schedule.every().day.at("21:00").do(rolling)
+schedule.every().day.at("23:00").do(rolling)
 
-while True: # necessary to keep it running, per schedule docs
+while True: # necessary to keep program running per schedule docs
     schedule.run_pending()
     time.sleep(1)
